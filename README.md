@@ -35,17 +35,15 @@ Und plötzlich sieht das ganze Meeting deine WhatsApp-Nachrichten, den offenen J
 
 ## Installation
 
-### One-Liner (empfohlen)
+### macOS
+
+**One-Liner (empfohlen):**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh
 ```
 
-brew tap mohrcon/tap
-brew install killswitch
-```
-
-### Manuell
+**Manuell:**
 
 ```bash
 git clone https://github.com/mohrcon/killswitch.git
@@ -54,11 +52,24 @@ chmod +x install.sh
 ./install.sh
 ```
 
+### Windows
+
+1. Installiere [AutoHotkey v2](https://www.autohotkey.com/) (kostenlos)
+2. Lade `Killswitch-Windows.zip` aus den [Releases](https://github.com/mohrcon/killswitch/releases/latest) herunter
+3. Entpacken → `killswitch.ahk` doppelklicken → ⚡ erscheint im Tray
+
+Oder manuell: `setup.bat` ausführen für Startmenü-Verknüpfung + optionalen Autostart.
+
 ## Voraussetzungen
 
-- **macOS** (getestet auf Ventura, Sonoma, Sequoia)
-- **[SwiftBar](https://swiftbar.app)** – für das Menüleisten-Icon (`brew install --cask swiftbar`)
-- **[Hammerspoon](https://www.hammerspoon.org)** – optional, für globale Hotkeys (`brew install --cask hammerspoon`)
+**macOS:**
+- macOS Ventura, Sonoma oder Sequoia
+- [SwiftBar](https://swiftbar.app) – für das Menüleisten-Icon (`brew install --cask swiftbar`)
+- [Hammerspoon](https://www.hammerspoon.org) – optional, für globale Hotkeys (`brew install --cask hammerspoon`)
+
+**Windows:**
+- Windows 10 oder 11
+- [AutoHotkey v2](https://www.autohotkey.com/) (kostenlos, Open Source)
 
 ## Quick Start
 
@@ -137,7 +148,8 @@ PRs willkommen! Besonders gesucht:
 - [ ] Native Swift Menu-Bar-App (eliminiert SwiftBar-Dependency)
 - [ ] Apple Shortcuts Integration
 - [ ] Kalender-Integration (Auto-Kill bei Meeting-Start)
-- [ ] Windows/Linux Port
+- [ ] Linux Port
+- [ ] Windows: Kompilierte .exe ohne AHK-Dependency
 
 ## License
 

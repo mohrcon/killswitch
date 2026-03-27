@@ -263,6 +263,55 @@
 
   .install-cmd .copy-icon { color: var(--text-muted); font-size: 14px; }
 
+  /* === PLATFORM TABS === */
+  .platform-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease-out 0.25s both;
+  }
+
+  .platform-tab {
+    padding: 10px 28px;
+    border-radius: 9px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .platform-tab:hover { color: var(--text); }
+
+  .platform-tab.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  .platform-content {
+    animation: fadeInUp 0.3s ease-out;
+  }
+
+  .install-steps {
+    display: inline-block;
+    padding: 14px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .install-steps strong { color: var(--text); }
+
   /* === MACBOOK MOCKUP === */
   .mockup-section {
     padding: 0 24px 100px;
@@ -828,7 +877,7 @@
 
   <div class="badge">
     <span class="dot"></span>
-    Open Source · Kostenlos · macOS
+    Open Source · Kostenlos · macOS & Windows
   </div>
 
   <h1>Dein Screen.<br>Deine <span class="red">Kontrolle.</span></h1>
@@ -837,20 +886,43 @@
     Ein Klick in der Menüleiste oder ein Hotkey – und alle Apps verschwinden, die beim Screen Sharing nichts zu suchen haben.
   </p>
 
-  <div class="hero-actions">
-    <a href="https://github.com/mohrcon/killswitch/releases/latest" class="btn-primary">
-      ⬇ Download für macOS
-    </a>
-    <a href="https://github.com/mohrcon/killswitch" class="btn-secondary">
-      GitHub ansehen
-    </a>
+  <div class="platform-tabs" id="platform-tabs">
+    <button class="platform-tab active" data-platform="mac" onclick="switchPlatform('mac')"> macOS</button>
+    <button class="platform-tab" data-platform="win" onclick="switchPlatform('win')">⊞ Windows</button>
   </div>
 
-  <div class="install-block" id="install">
-    <div class="install-label">Oder per Terminal</div>
-    <div class="install-cmd" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh'); this.querySelector('.copy-icon').textContent='✓'">
-      <span>curl -fsSL .../killswitch/install.sh | zsh</span>
-      <span class="copy-icon">📋</span>
+  <div class="platform-content" id="platform-mac">
+    <div class="hero-actions">
+      <a href="https://github.com/mohrcon/killswitch/releases/latest" class="btn-primary">
+        ⬇ Download für macOS
+      </a>
+      <a href="https://github.com/mohrcon/killswitch" class="btn-secondary">
+        GitHub ansehen
+      </a>
+    </div>
+    <div class="install-block" id="install">
+      <div class="install-label">Oder per Terminal</div>
+      <div class="install-cmd" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh'); this.querySelector('.copy-icon').textContent='✓'">
+        <span>curl -fsSL .../killswitch/install.sh | zsh</span>
+        <span class="copy-icon">📋</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="platform-content" id="platform-win" style="display:none;">
+    <div class="hero-actions">
+      <a href="https://www.autohotkey.com/" class="btn-secondary" target="_blank">
+        ① AutoHotkey v2 installieren
+      </a>
+      <a href="https://github.com/mohrcon/killswitch/releases/latest" class="btn-primary">
+        ② ⬇ Killswitch laden
+      </a>
+    </div>
+    <div class="install-block">
+      <div class="install-label">So geht's</div>
+      <div class="install-steps">
+        <span>AutoHotkey v2 installieren → ZIP entpacken → <strong>killswitch.ahk</strong> doppelklicken → ⚡ im Tray</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1099,10 +1171,15 @@
 <!-- CTA -->
 <section class="cta-section">
   <h2>Nie wieder peinliche<br>Screen Shares.</h2>
-  <p>Kostenlos. Open Source. Für immer.</p>
-  <a href="https://github.com/mohrcon/killswitch/releases/latest" class="btn-primary" style="font-size:19px; padding: 18px 44px;">
-    ⬇ Jetzt downloaden
-  </a>
+  <p>Kostenlos. Open Source. macOS & Windows. Für immer.</p>
+  <div class="hero-actions" style="justify-content:center;">
+    <a href="https://github.com/mohrcon/killswitch/releases/latest" class="btn-primary" style="font-size:19px; padding: 18px 44px;">
+      ⬇ Jetzt downloaden
+    </a>
+    <a href="https://github.com/mohrcon/killswitch" class="btn-secondary" style="font-size:17px; padding: 16px 36px;">
+      GitHub ansehen
+    </a>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -1204,6 +1281,19 @@ if (profile1) {
       }
     }, 150);
   });
+}
+
+// Platform tab switching
+function switchPlatform(platform) {
+  document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.platform-tab[data-platform="${platform}"]`).classList.add('active');
+  document.getElementById('platform-mac').style.display = platform === 'mac' ? 'block' : 'none';
+  document.getElementById('platform-win').style.display = platform === 'win' ? 'block' : 'none';
+}
+
+// Auto-detect platform
+if (navigator.userAgent.includes('Windows')) {
+  switchPlatform('win');
 }
 </script>
 
