@@ -5,9 +5,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/mohr-consulting/killswitch/releases/latest"><img src="https://img.shields.io/github/v/release/mohr-consulting/killswitch?style=flat-square&color=ff3b30" alt="Release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/mohr-consulting/killswitch?style=flat-square" alt="License"></a>
-  <a href="https://github.com/mohr-consulting/killswitch/stargazers"><img src="https://img.shields.io/github/stars/mohr-consulting/killswitch?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/mohrcon/killswitch/releases/latest"><img src="https://img.shields.io/github/v/release/mohrcon/killswitch?style=flat-square&color=ff3b30" alt="Release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/mohrcon/killswitch?style=flat-square" alt="License"></a>
+  <a href="https://github.com/mohrcon/killswitch/stargazers"><img src="https://img.shields.io/github/stars/mohrcon/killswitch?style=flat-square" alt="Stars"></a>
 </p>
 
 <p align="center">
@@ -38,20 +38,20 @@ Und plötzlich sieht das ganze Meeting deine WhatsApp-Nachrichten, den offenen J
 ### One-Liner (empfohlen)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mohr-consulting/killswitch/main/install.sh | zsh
+curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh
 ```
 
 ### Homebrew
 
 ```bash
-brew tap mohr-consulting/tap
+brew tap mohrcon/tap
 brew install killswitch
 ```
 
 ### Manuell
 
 ```bash
-git clone https://github.com/mohr-consulting/killswitch.git
+git clone https://github.com/mohrcon/killswitch.git
 cd killswitch
 chmod +x install.sh
 ./install.sh

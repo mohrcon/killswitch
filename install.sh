@@ -2,12 +2,12 @@
 
 # ============================================================
 # ⚡ Killswitch Installer
-# curl -fsSL https://raw.githubusercontent.com/mohr-consulting/killswitch/main/install.sh | zsh
+# curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh
 # ============================================================
 
 set -e
 
-REPO="mohr-consulting/killswitch"
+REPO="mohrcon/killswitch"
 BRANCH="main"
 BASE_URL="https://raw.githubusercontent.com/$REPO/$BRANCH"
 
