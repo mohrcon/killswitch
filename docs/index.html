@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Killswitch — Screen Sharing ohne Peinlichkeiten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #131316;
+    --surface-hover: #1a1a1f;
+    --border: #222228;
+    --text: #e8e8ec;
+    --text-muted: #6e6e7a;
+    --accent: #ff3b30;
+    --accent-glow: rgba(255, 59, 48, 0.15);
+    --accent-soft: rgba(255, 59, 48, 0.08);
+    --green: #30d158;
+    --yellow: #ffd60a;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === NOISE OVERLAY === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* === TOP GLOW === */
+  .hero-glow {
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(255,59,48,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,11,0.7);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo .bolt { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(255,59,48,0.3);
+  }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -3px;
+    max-width: 800px;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+  }
+
+  .hero h1 .red { color: var(--accent); }
+
+  .hero .subtitle {
+    font-size: clamp(18px, 2.5vw, 22px);
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 48px;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255,59,48,0.35);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 16px 36px;
+    border-radius: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover {
+    background: var(--surface-hover);
+    border-color: #333;
+  }
+
+  /* === INSTALL COMMAND === */
+  .install-block {
+    margin-top: 48px;
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+  }
+
+  .install-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .install-cmd {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .install-cmd:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .install-cmd .copy-icon { color: var(--text-muted); font-size: 14px; }
+
+  /* === MOCKUP === */
+  .mockup-section {
+    padding: 0 24px 120px;
+    display: flex;
+    justify-content: center;
+    animation: fadeInUp 0.8s ease-out 0.5s both;
+  }
+
+  .mockup-window {
+    max-width: 720px;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+  }
+
+  .mockup-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    background: #1a1a1f;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mockup-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .mockup-dot.red { background: #ff5f57; }
+  .mockup-dot.yellow { background: #febc2e; }
+  .mockup-dot.green { background: #28c840; }
+
+  .mockup-titlebar span {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .mockup-body {
+    padding: 24px;
+  }
+
+  .mockup-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    transition: background 0.15s;
+  }
+
+  .mockup-menu-item:hover { background: var(--surface-hover); }
+
+  .mockup-menu-item .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .mockup-menu-item .right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+  }
+
+  .mockup-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+  }
+
+  .mockup-profile {
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .mockup-profile:hover { background: rgba(255,59,48,0.08); }
+
+  .mockup-profile .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .mockup-profile .profile-name {
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mockup-profile .profile-hotkey {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+  }
+
+  .mockup-profile .profile-apps {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .mockup-profile .app-tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .app-tag.running {
+    background: rgba(48,209,88,0.1);
+    color: var(--green);
+    border: 1px solid rgba(48,209,88,0.2);
+  }
+
+  .app-tag.off {
+    background: rgba(255,255,255,0.03);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  /* === FEATURES === */
+  .features {
+    padding: 120px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .features-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .features-header h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+
+  .features-header p {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    transition: all 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(255,59,48,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  .feature-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .feature-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+
+  .feature-card p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* === USE CASES === */
+  .usecases {
+    padding: 80px 24px 120px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .usecases h2 {
+    text-align: center;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 60px;
+  }
+
+  .usecase {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.2s;
+  }
+
+  .usecase:hover {
+    border-color: rgba(255,59,48,0.2);
+  }
+
+  .usecase-emoji {
+    font-size: 36px;
+    flex-shrink: 0;
+  }
+
+  .usecase h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .usecase p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* === CTA === */
+  .cta-section {
+    padding: 120px 24px;
+    text-align: center;
+    position: relative;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(255,59,48,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+
+  .cta-section p {
+    color: var(--text-muted);
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 24px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--text); }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    nav { padding: 12px 16px; }
+    .nav-links { display: none; }
+    .hero h1 { letter-spacing: -2px; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .features-grid { grid-template-columns: 1fr; }
+    .usecase { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="bolt">⚡</span> killswitch
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#usecases">Use Cases</a></li>
+    <li><a href="https://github.com/mohr-consulting/killswitch">GitHub</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'})">Download</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="badge">
+    <span class="dot"></span>
+    Open Source · Kostenlos · macOS
+  </div>
+
+  <h1>Dein Screen.<br>Deine <span class="red">Kontrolle.</span></h1>
+
+  <p class="subtitle">
+    Ein Klick in der Menüleiste oder ein Hotkey – und alle Apps verschwinden, die beim Screen Sharing nichts zu suchen haben.
+  </p>
+
+  <div class="hero-actions">
+    <a href="https://github.com/mohr-consulting/killswitch/releases/latest" class="btn-primary">
+      ⬇ Download für macOS
+    </a>
+    <a href="https://github.com/mohr-consulting/killswitch" class="btn-secondary">
+      GitHub ansehen
+    </a>
+  </div>
+
+  <div class="install-block" id="install">
+    <div class="install-label">Oder per Terminal</div>
+    <div class="install-cmd" onclick="navigator.clipboard.writeText('brew install mohr-consulting/tap/killswitch'); this.querySelector('.copy-icon').textContent='✓'">
+      <span>brew install mohr-consulting/tap/killswitch</span>
+      <span class="copy-icon">📋</span>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP -->
+<section class="mockup-section">
+  <div class="mockup-window">
+    <div class="mockup-titlebar">
+      <div class="mockup-dot red"></div>
+      <div class="mockup-dot yellow"></div>
+      <div class="mockup-dot green"></div>
+      <span>⚡ killswitch</span>
+    </div>
+    <div class="mockup-body">
+      <div class="mockup-menu-item">
+        <div class="left">⚡ Force Kill</div>
+        <div class="right">Modus</div>
+      </div>
+      <div class="mockup-divider"></div>
+
+      <div class="mockup-profile">
+        <div class="profile-header">
+          <div class="profile-name">🔴 Screen Sharing</div>
+          <div class="profile-hotkey">⌃⌥⌘S</div>
+        </div>
+        <div class="profile-apps">
+          <span class="app-tag running">🟢 WhatsApp</span>
+          <span class="app-tag running">🟢 Messages</span>
+          <span class="app-tag running">🟢 Tinder</span>
+          <span class="app-tag off">⚪ Discord</span>
+        </div>
+      </div>
+
+      <div class="mockup-profile">
+        <div class="profile-header">
+          <div class="profile-name">🔴 Focus Mode</div>
+          <div class="profile-hotkey">⌃⌥⌘F</div>
+        </div>
+        <div class="profile-apps">
+          <span class="app-tag running">🟢 Slack</span>
+          <span class="app-tag running">🟢 Mail</span>
+          <span class="app-tag running">🟢 Teams</span>
+          <span class="app-tag off">⚪ Zoom</span>
+        </div>
+      </div>
+
+      <div class="mockup-profile">
+        <div class="profile-header">
+          <div class="profile-name">🔴 Meeting Ende</div>
+          <div class="profile-hotkey">⌃⌥⌘M</div>
+        </div>
+        <div class="profile-apps">
+          <span class="app-tag running">🟢 Zoom</span>
+          <span class="app-tag running">🟢 Teams</span>
+          <span class="app-tag off">⚪ Krisp</span>
+        </div>
+      </div>
+
+      <div class="mockup-divider"></div>
+      <div class="mockup-menu-item">
+        <div class="left">⚙️ Profile bearbeiten</div>
+        <div class="right">TextEdit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-header">
+    <h2>Einfach. Schnell. Sicher.</h2>
+    <p>Kein Account, keine Cloud, keine Telemetrie. Alles lokal auf deinem Mac.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <h3>Ein Klick. Alles weg.</h3>
+      <p>Profile definieren, Hotkey drücken. In unter einer Sekunde sind alle Apps geschlossen, die niemand sehen soll.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🎯</span>
+      <h3>Profile für jeden Anlass</h3>
+      <p>"Screen Sharing", "Focus Mode", "Meeting Ende" – du entscheidest welche Apps in welcher Situation verschwinden.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">⌨️</span>
+      <h3>Globale Hotkeys</h3>
+      <p>Tastenkombinationen die überall funktionieren – auch wenn du gerade in einer anderen App bist. Panik-Button inklusive.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🔒</span>
+      <h3>100% lokal</h3>
+      <p>Keine Cloud, kein Tracking, kein Account. Eine Config-Datei auf deinem Mac. Das war's.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <h3>Live Status</h3>
+      <p>Sieh in der Menüleiste sofort wie viele überwachte Apps gerade laufen – mit CPU und RAM-Verbrauch.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🛠️</span>
+      <h3>Open Source</h3>
+      <p>MIT-lizenziert, Code auf GitHub. Forken, anpassen, beitragen. Gebaut von jemandem der selbst genug Meetings hatte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases" id="usecases">
+  <h2>Kennst du das?</h2>
+
+  <div class="usecase">
+    <div class="usecase-emoji">😱</div>
+    <div>
+      <h3>"Kannst du deinen Bildschirm teilen?"</h3>
+      <p>Und plötzlich sieht das ganze Meeting deine WhatsApp-Nachrichten, den offenen Job-Portal-Tab und die Tinder-Notification. Mit Killswitch: Ein Hotkey, alles weg.</p>
+    </div>
+  </div>
+
+  <div class="usecase">
+    <div class="usecase-emoji">🎯</div>
+    <div>
+      <h3>"Ich brauch mal kurz Focus."</h3>
+      <p>Slack, Teams, Mail, WhatsApp – alle gleichzeitig schließen statt einzeln wegklicken. Profil "Focus" drücken, Deep Work starten.</p>
+    </div>
+  </div>
+
+  <div class="usecase">
+    <div class="usecase-emoji">👋</div>
+    <div>
+      <h3>"Das Meeting ist endlich vorbei."</h3>
+      <p>Zoom, Teams und Krisp in einem Rutsch beenden. Kein Rumklicken durch drei verschiedene "Leave Meeting"-Buttons.</p>
+    </div>
+  </div>
+
+  <div class="usecase">
+    <div class="usecase-emoji">🕵️</div>
+    <div>
+      <h3>"Was nutzt du denn für Tools?"</h3>
+      <p>Manche Apps gehen niemanden was an. ChatGPT, Claude, Crypto-Tracker – bevor du präsentierst, ein Klick und die Menüleiste ist clean.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Nie wieder peinliche<br>Screen Shares.</h2>
+  <p>Kostenlos. Open Source. Für immer.</p>
+  <a href="https://github.com/mohr-consulting/killswitch/releases/latest" class="btn-primary" style="font-size:19px; padding: 18px 44px;">
+    ⬇ Jetzt downloaden
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    ⚡ killswitch · Made by <a href="https://www.linkedin.com/in/michaelmohr-sap/">Michael Mohr</a> · <a href="https://github.com/mohr-consulting/killswitch">GitHub</a> · MIT License
+  </p>
+</footer>
+
+</body>
+</html>
