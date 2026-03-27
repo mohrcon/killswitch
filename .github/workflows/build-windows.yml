@@ -14,17 +14,42 @@ jobs:
 
       - name: Install AutoHotkey v2
         run: |
-          Invoke-WebRequest -Uri "https://www.autohotkey.com/download/ahk-v2.exe" -OutFile "ahk-v2-setup.exe"
-          Start-Process -FilePath "ahk-v2-setup.exe" -ArgumentList "/S" -Wait
+          # Download from GitHub releases (avoids Cloudflare block)
+          $release = Invoke-RestMethod -Uri "https://api.github.com/repos/AutoHotkey/AutoHotkey/releases/latest"
+          $asset = $release.assets | Where-Object { $_.name -match "AutoHotkey.*Setup\.exe$" } | Select-Object -First 1
+          if ($asset) {
+            Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "ahk-setup.exe"
+          } else {
+            # Fallback: direct v2 link from GitHub
+            Invoke-WebRequest -Uri "https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19_setup.exe" -OutFile "ahk-setup.exe"
+          }
+          Start-Process -FilePath "ahk-setup.exe" -ArgumentList "/S" -Wait
+          Start-Sleep -Seconds 3
         shell: pwsh
 
       - name: Compile to .exe
         run: |
-          $ahk2exe = "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
-          if (!(Test-Path $ahk2exe)) {
-            $ahk2exe = "${env:LOCALAPPDATA}\Programs\AutoHotkey\Compiler\Ahk2Exe.exe"
+          # Find Ahk2Exe compiler
+          $paths = @(
+            "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe",
+            "${env:LOCALAPPDATA}\Programs\AutoHotkey\Compiler\Ahk2Exe.exe",
+            "C:\Program Files\AutoHotkey\v2\Compiler\Ahk2Exe.exe",
+            "${env:ProgramFiles}\AutoHotkey\Compiler\Ahk2Exe.exe"
+          )
+          $ahk2exe = $null
+          foreach ($p in $paths) {
+            if (Test-Path $p) { $ahk2exe = $p; break }
           }
+          if (!$ahk2exe) {
+            # Search for it
+            $found = Get-ChildItem -Path "C:\", "${env:LOCALAPPDATA}" -Filter "Ahk2Exe.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($found) { $ahk2exe = $found.FullName }
+          }
+          if (!$ahk2exe) { Write-Error "Ahk2Exe.exe not found!"; exit 1 }
+          Write-Host "Using compiler: $ahk2exe"
           & $ahk2exe /in "windows\killswitch.ahk" /out "Killswitch.exe"
+          if (!(Test-Path "Killswitch.exe")) { Write-Error "Compilation failed!"; exit 1 }
+          Write-Host "✓ Killswitch.exe compiled successfully"
         shell: pwsh
 
       - name: Create Windows ZIP
