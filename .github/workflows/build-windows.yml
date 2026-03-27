@@ -1,0 +1,52 @@
+name: Build Windows Release
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install AutoHotkey v2
+        run: |
+          Invoke-WebRequest -Uri "https://www.autohotkey.com/download/ahk-v2.exe" -OutFile "ahk-v2-setup.exe"
+          Start-Process -FilePath "ahk-v2-setup.exe" -ArgumentList "/S" -Wait
+        shell: pwsh
+
+      - name: Compile to .exe
+        run: |
+          $ahk2exe = "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
+          if (!(Test-Path $ahk2exe)) {
+            $ahk2exe = "${env:LOCALAPPDATA}\Programs\AutoHotkey\Compiler\Ahk2Exe.exe"
+          }
+          & $ahk2exe /in "windows\killswitch.ahk" /out "Killswitch.exe"
+        shell: pwsh
+
+      - name: Create Windows ZIP
+        run: |
+          Compress-Archive -Path "Killswitch.exe", "windows\profiles.ini", "windows\setup.bat", "windows\README-Windows.md" -DestinationPath "Killswitch-Windows.zip"
+        shell: pwsh
+
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Killswitch.exe
+            Killswitch-Windows.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifact (manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Killswitch-Windows
+          path: |
+            Killswitch.exe
+            Killswitch-Windows.zip
