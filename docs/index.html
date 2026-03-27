@@ -901,10 +901,15 @@
       </a>
     </div>
     <div class="install-block" id="install">
-      <div class="install-label">Oder per Terminal</div>
+      <div class="install-label">Per Terminal installieren</div>
       <div class="install-cmd" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh'); this.querySelector('.copy-icon').textContent='✓'">
         <span>curl -fsSL .../killswitch/install.sh | zsh</span>
         <span class="copy-icon">📋</span>
+      </div>
+      <div class="install-steps" style="margin-top:12px;">
+        <span>Profile bearbeiten: Klick auf ⚡ → <strong>Profile bearbeiten</strong><br>
+        Config-Datei: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; font-size:13px;">~/.killswitch/profiles.ini</code><br>
+        Prozessnamen finden: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; font-size:13px;">killswitch --diagnose</code></span>
       </div>
     </div>
   </div>
@@ -914,7 +919,7 @@
       <a href="https://www.autohotkey.com/" class="btn-secondary" target="_blank">
         ① AutoHotkey v2 installieren
       </a>
-      <a href="https://github.com/mohrcon/killswitch/releases/latest" class="btn-primary">
+      <a href="https://github.com/mohrcon/killswitch/archive/refs/heads/main.zip" class="btn-primary">
         ② ⬇ Killswitch laden
       </a>
     </div>
@@ -922,6 +927,10 @@
       <div class="install-label">So geht's</div>
       <div class="install-steps">
         <span>AutoHotkey v2 installieren → ZIP entpacken → <strong>killswitch.ahk</strong> doppelklicken → ⚡ im Tray</span>
+        <br><br>
+        <span>Profile bearbeiten: Rechtsklick auf ⚡ → <strong>Profile bearbeiten</strong><br>
+        Config-Datei: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; font-size:13px;">%APPDATA%\Killswitch\profiles.ini</code><br>
+        Prozessnamen finden: Rechtsklick auf ⚡ → <strong>Diagnose</strong></span>
       </div>
     </div>
   </div>
