@@ -18,27 +18,18 @@ jobs:
 
       - name: Compile to .exe
         run: |
-          # Find Ahk2Exe compiler
-          $paths = @(
-            "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe",
-            "${env:LOCALAPPDATA}\Programs\AutoHotkey\Compiler\Ahk2Exe.exe",
-            "C:\Program Files\AutoHotkey\v2\Compiler\Ahk2Exe.exe",
-            "${env:ProgramFiles}\AutoHotkey\Compiler\Ahk2Exe.exe"
-          )
-          $ahk2exe = $null
-          foreach ($p in $paths) {
-            if (Test-Path $p) { $ahk2exe = $p; break }
+          # Chocolatey installs AHK here
+          $ahk2exe = "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
+          Write-Host "Looking for: $ahk2exe"
+          Write-Host "Exists: $(Test-Path $ahk2exe)"
+          if (!(Test-Path $ahk2exe)) {
+            # List what's in the AHK directory
+            Get-ChildItem "C:\Program Files\AutoHotkey" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+            Write-Error "Ahk2Exe.exe not found!"; exit 1
           }
-          if (!$ahk2exe) {
-            # Search for it
-            $found = Get-ChildItem -Path "C:\", "${env:LOCALAPPDATA}" -Filter "Ahk2Exe.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($found) { $ahk2exe = $found.FullName }
-          }
-          if (!$ahk2exe) { Write-Error "Ahk2Exe.exe not found!"; exit 1 }
-          Write-Host "Using compiler: $ahk2exe"
           & $ahk2exe /in "windows\killswitch.ahk" /out "Killswitch.exe"
           if (!(Test-Path "Killswitch.exe")) { Write-Error "Compilation failed!"; exit 1 }
-          Write-Host "✓ Killswitch.exe compiled successfully"
+          Write-Host "✓ Killswitch.exe compiled"
         shell: pwsh
 
       - name: Create Windows ZIP
