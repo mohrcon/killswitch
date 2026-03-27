@@ -16,17 +16,21 @@ jobs:
         run: choco install autohotkey --yes --no-progress
         shell: pwsh
 
+      - name: Find AutoHotkey installation
+        run: |
+          Write-Host "=== Searching for Ahk2Exe ==="
+          Get-ChildItem -Path "C:\Program Files", "C:\Program Files (x86)", "C:\ProgramData\chocolatey" -Filter "Ahk2Exe.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+          Write-Host "=== AHK in PATH ==="
+          Get-Command autohotkey* -ErrorAction SilentlyContinue | Select-Object Source
+          Write-Host "=== Choco lib ==="
+          Get-ChildItem "C:\ProgramData\chocolatey\lib\autohotkey*" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+        shell: pwsh
+
       - name: Compile to .exe
         run: |
-          # Chocolatey installs AHK here
-          $ahk2exe = "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
-          Write-Host "Looking for: $ahk2exe"
-          Write-Host "Exists: $(Test-Path $ahk2exe)"
-          if (!(Test-Path $ahk2exe)) {
-            # List what's in the AHK directory
-            Get-ChildItem "C:\Program Files\AutoHotkey" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
-            Write-Error "Ahk2Exe.exe not found!"; exit 1
-          }
+          $ahk2exe = Get-ChildItem -Path "C:\Program Files", "C:\Program Files (x86)", "C:\ProgramData\chocolatey" -Filter "Ahk2Exe.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+          if (!$ahk2exe) { Write-Error "Ahk2Exe.exe not found!"; exit 1 }
+          Write-Host "Using: $ahk2exe"
           & $ahk2exe /in "windows\killswitch.ahk" /out "Killswitch.exe"
           if (!(Test-Path "Killswitch.exe")) { Write-Error "Compilation failed!"; exit 1 }
           Write-Host "✓ Killswitch.exe compiled"
