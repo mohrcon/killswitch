@@ -73,11 +73,20 @@ Oder manuell: `setup.bat` ausführen für Startmenü-Verknüpfung + optionalen A
 
 ## Quick Start
 
-Nach der Installation erscheint ein ⚡ in deiner Menüleiste. Klick drauf und du siehst deine Profile.
+Nach der Installation erscheint ein **⚡** in deiner Menüleiste (macOS) bzw. im System Tray (Windows).
+
+**3 Schritte, das war's:**
+
+1. **Klick auf ⚡** → Du siehst deine Profile mit allen Apps und deren Status (🟢 läuft / ⚪ aus)
+2. **Klick auf ein Profil** (z.B. "🔴 Screen Sharing") → Alle Apps im Profil werden sofort geschlossen
+3. **Profile anpassen?** → Klick auf ⚡ → ganz unten **"⚙️ Profile bearbeiten"** → öffnet die Config in deinem Editor
 
 ### Profile anpassen
 
-Öffne `~/.killswitch/profiles.ini`:
+Die Config ist eine einfache Textdatei. Klick auf ⚡ → **"⚙️ Profile bearbeiten"** oder öffne sie direkt:
+
+- **macOS:** `~/.killswitch/profiles.ini`
+- **Windows:** `%APPDATA%\Killswitch\profiles.ini`
 
 ```ini
 [Settings]
@@ -86,7 +95,7 @@ kill_mode = force        # force = sofort | quit = sanft beenden
 
 [ScreenSharing]
 hotkey = ctrl+alt+cmd+s
-apps = WhatsApp, Messages, Tinder, Discord, ChatGPT, Spotify
+apps = WhatsApp, Messages, Claude, ChatGPT, Spotify
 
 [Focus]
 hotkey = ctrl+alt+cmd+f
@@ -97,15 +106,16 @@ hotkey = ctrl+alt+cmd+m
 apps = zoom.us, MSTeams, krisp, Webex
 ```
 
+Einfach App-Namen hinzufügen oder entfernen, speichern, fertig. Auf macOS lädt das Plugin automatisch neu, auf Windows: Rechtsklick auf ⚡ → "🔄 Config neu laden".
+
 ### Den richtigen App-Namen finden
 
-App-Namen müssen exakt so heißen wie macOS sie kennt. Nutze die Diagnose:
+App-Namen müssen exakt so heißen wie dein System sie kennt. Um die richtigen Namen zu finden:
 
-```bash
-killswitch --diagnose
-```
+- **macOS:** `killswitch --diagnose` im Terminal, oder Klick auf ⚡ → **"🔍 Diagnose"**
+- **Windows:** Rechtsklick auf ⚡ → **"🔍 Diagnose"**
 
-Das zeigt dir alle laufenden Apps mit ihren korrekten Namen.
+Das zeigt dir alle laufenden Apps mit ihren korrekten Prozessnamen.
 
 ### Hotkeys (mit Hammerspoon)
 
