@@ -41,9 +41,6 @@ Und plötzlich sieht das ganze Meeting deine WhatsApp-Nachrichten, den offenen J
 curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh
 ```
 
-### Homebrew
-
-```bash
 brew tap mohrcon/tap
 brew install killswitch
 ```
