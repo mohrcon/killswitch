@@ -263,148 +263,359 @@
 
   .install-cmd .copy-icon { color: var(--text-muted); font-size: 14px; }
 
-  /* === MOCKUP === */
+  /* === MACBOOK MOCKUP === */
   .mockup-section {
-    padding: 0 24px 120px;
+    padding: 0 24px 100px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     animation: fadeInUp 0.8s ease-out 0.5s both;
   }
 
-  .mockup-window {
-    max-width: 720px;
+  .macbook-frame {
+    max-width: 680px;
     width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
   }
 
-  .mockup-titlebar {
+  .macbook-bezel {
+    background: #1c1c1e;
+    border-radius: 14px 14px 0 0;
+    padding: 8px 0 0;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 18px;
-    background: #1a1a1f;
-    border-bottom: 1px solid var(--border);
+    justify-content: center;
+    border: 2px solid #333;
+    border-bottom: none;
   }
 
-  .mockup-dot {
-    width: 12px;
-    height: 12px;
+  .macbook-camera {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
+    background: #2a2a2e;
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.5), 0 0 3px rgba(100,100,120,0.2);
+    margin-bottom: 6px;
   }
 
-  .mockup-dot.red { background: #ff5f57; }
-  .mockup-dot.yellow { background: #febc2e; }
-  .mockup-dot.green { background: #28c840; }
+  .macbook-screen {
+    border-left: 2px solid #333;
+    border-right: 2px solid #333;
+    overflow: hidden;
+    position: relative;
+  }
 
-  .mockup-titlebar span {
-    flex: 1;
-    text-align: center;
+  .macbook-chin {
+    height: 18px;
+    background: linear-gradient(180deg, #1c1c1e 0%, #161618 100%);
+    border-radius: 0 0 14px 14px;
+    border: 2px solid #333;
+    border-top: 1px solid #222;
+  }
+
+  .macos-menubar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    height: 25px;
+    background: linear-gradient(180deg, rgba(60,60,62,0.95) 0%, rgba(44,44,46,0.95) 100%);
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    backdrop-filter: blur(30px);
+  }
+
+  .menubar-left, .menubar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .apple-logo::before {
+    content: '';
     font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 500;
   }
 
-  .mockup-body {
-    padding: 24px;
-  }
+  .menubar-app { font-weight: 700; font-size: 11.5px; }
+  .menubar-item { color: rgba(255,255,255,0.55); font-size: 11.5px; }
 
-  .mockup-menu-item {
+  .menubar-tray-icon {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-radius: 10px;
-    margin-bottom: 4px;
-    transition: background 0.15s;
+    opacity: 0.7;
   }
 
-  .mockup-menu-item:hover { background: var(--surface-hover); }
-
-  .mockup-menu-item .left {
+  .menubar-tray-text {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    font-weight: 500;
+    opacity: 0.55;
   }
 
-  .mockup-menu-item .right {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--text-muted);
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-  }
-
-  .mockup-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 12px 0;
-  }
-
-  .mockup-profile {
-    padding: 12px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .mockup-profile:hover { background: rgba(255,59,48,0.08); }
-
-  .mockup-profile .profile-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-
-  .mockup-profile .profile-name {
-    font-weight: 700;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .mockup-profile .profile-hotkey {
-    font-family: 'JetBrains Mono', monospace;
+  .menubar-clock {
     font-size: 11px;
-    color: var(--text-muted);
-    padding: 3px 8px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.65);
+    font-weight: 500;
   }
 
-  .mockup-profile .profile-apps {
+  .menubar-killswitch {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(255,59,48,0.15);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    animation: ksGlow 2s ease-in-out infinite;
+  }
+
+  .ks-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 0px 4px;
+    border-radius: 6px;
+    min-width: 14px;
+    text-align: center;
+    line-height: 13px;
+  }
+
+  @keyframes ksGlow {
+    0%, 100% { background: rgba(255,59,48,0.15); }
+    50% { background: rgba(255,59,48,0.28); }
+  }
+
+  /* Desktop */
+  .macos-desktop {
+    height: 340px;
+    background:
+      radial-gradient(ellipse at 30% 50%, #1a2744 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 40%, #2a1a3a 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, #1a1a2e 0%, transparent 60%),
+      linear-gradient(180deg, #0d0d1a 0%, #111122 50%, #0a0a14 100%);
+    position: relative;
+  }
+
+  /* Dropdown */
+  .ks-dropdown {
+    position: absolute;
+    top: 4px;
+    right: 60px;
+    width: 280px;
+    z-index: 10;
+    animation: dropdownSlide 0.5s ease-out 1s both;
+  }
+
+  @keyframes dropdownSlide {
+    from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes dropdownHide {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(-6px) scale(0.96); }
+  }
+
+  .ks-dropdown-inner {
+    background: rgba(40, 40, 44, 0.97);
+    backdrop-filter: blur(40px);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 5px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.05);
+  }
+
+  .ks-mode {
     display: flex;
-    gap: 6px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .ks-mode-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .ks-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 3px 6px;
+  }
+
+  .ks-profile {
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin: 1px 0;
+  }
+
+  .ks-profile:hover { background: rgba(255,255,255,0.06); }
+
+  .ks-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .ks-profile-name {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .ks-hotkey {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .ks-apps {
+    display: flex;
+    gap: 3px;
     flex-wrap: wrap;
   }
 
-  .mockup-profile .app-tag {
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 6px;
+  .ks-app {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
     font-weight: 500;
   }
 
-  .app-tag.running {
+  .ks-app.running {
     background: rgba(48,209,88,0.1);
-    color: var(--green);
-    border: 1px solid rgba(48,209,88,0.2);
+    color: #30d158;
+    border: 1px solid rgba(48,209,88,0.15);
   }
 
-  .app-tag.off {
+  .ks-app.off {
     background: rgba(255,255,255,0.03);
+    color: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .ks-footer-item {
+    padding: 5px 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .ks-footer-item:hover {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* Desktop app windows */
+  .desk-app {
+    position: absolute;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 0 0.5px rgba(255,255,255,0.08);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+
+  .desk-app.killed {
+    opacity: 0;
+    transform: scale(0.7);
+    filter: blur(4px);
+  }
+
+  .desk-app-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(56,56,58,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .desk-dots { display: flex; gap: 4px; }
+  .dd { width: 7px; height: 7px; border-radius: 50%; }
+  .dd.r { background: #ff5f57; }
+  .dd.y { background: #febc2e; }
+  .dd.g { background: #28c840; }
+
+  .desk-app-title {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    flex: 1;
+    text-align: center;
+    margin-right: 30px;
+  }
+
+  .desk-app-body { padding: 10px; }
+
+  /* Placeholder lines */
+  .wa-line { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.12); margin-bottom: 4px; }
+  .wa-line.dim { background: rgba(255,255,255,0.06); }
+  .wa-line.w30 { width: 30%; } .wa-line.w40 { width: 40%; } .wa-line.w50 { width: 50%; }
+  .wa-line.w60 { width: 60%; } .wa-line.w70 { width: 70%; } .wa-line.w80 { width: 80%; }
+  .wa-line.w90 { width: 90%; } .wa-line.w95 { width: 95%; }
+
+  /* WhatsApp style */
+  .wa-body { display: flex; background: #0b141a; padding: 0; }
+  .wa-sidebar { width: 35%; border-right: 1px solid rgba(255,255,255,0.06); padding: 6px; }
+  .wa-chat { display: flex; align-items: center; gap: 5px; padding: 5px 4px; border-radius: 4px; margin-bottom: 2px; }
+  .wa-chat.active { background: rgba(0,150,100,0.15); }
+  .wa-avatar { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+  .wa-lines { flex: 1; }
+  .wa-notif { background: #25d366; color: #000; font-size: 7px; font-weight: 800; width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .wa-main { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .wa-bubble { padding: 6px 8px; border-radius: 6px; max-width: 75%; }
+  .wa-bubble.left { background: rgba(255,255,255,0.06); align-self: flex-start; }
+  .wa-bubble.right { background: rgba(0,120,80,0.3); align-self: flex-end; }
+
+  /* Claude / ChatGPT style */
+  .claude-body { background: #1a1a24; display: flex; flex-direction: column; gap: 8px; }
+  .claude-msg { padding: 6px 8px; border-radius: 6px; background: rgba(255,255,255,0.04); }
+  .claude-reply { padding: 6px 8px; border-radius: 6px; background: rgba(180,130,60,0.1); border-left: 2px solid rgba(200,150,70,0.3); }
+  .gpt-reply { background: rgba(80,170,120,0.1); border-left: 2px solid rgba(80,170,120,0.3); }
+
+  /* Spotify style */
+  .spotify-bar { background: rgba(0,0,0,0.9); }
+  .spotify-body { background: linear-gradient(180deg, #1a3020 0%, #121212 60%); display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px; }
+  .sp-cover { width: 55%; aspect-ratio: 1; border-radius: 4px; background: linear-gradient(135deg, #2a5040 0%, #1a3030 100%); }
+  .sp-track { width: 70%; text-align: center; }
+  .sp-track .wa-line { margin: 3px auto; }
+  .sp-progress { width: 80%; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .sp-bar { width: 45%; height: 100%; background: #1db954; border-radius: 2px; }
+
+  .mockup-caption {
+    text-align: center;
+    margin-top: 24px;
     color: var(--text-muted);
-    border: 1px solid var(--border);
+    font-size: 14px;
+    animation: fadeInUp 0.6s ease-out 1.5s both;
+  }
+
+  /* Kill animation */
+  .ks-profile.killing .ks-app.running {
+    animation: killFlash 0.4s ease-out forwards;
+  }
+
+  @keyframes killFlash {
+    0% { background: rgba(255,59,48,0.3); color: #ff3b30; border-color: rgba(255,59,48,0.4); }
+    100% { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.05); opacity: 0.5; }
   }
 
   /* === FEATURES === */
@@ -587,6 +798,12 @@
     .hero-actions { flex-direction: column; align-items: center; }
     .features-grid { grid-template-columns: 1fr; }
     .usecase { flex-direction: column; gap: 12px; }
+    .menubar-left .menubar-item { display: none; }
+    .menubar-right .menubar-tray-icon,
+    .menubar-right .menubar-tray-text { display: none; }
+    .macos-menubar { font-size: 10px; }
+    .ks-dropdown { right: 8px; width: 240px; }
+    .macos-desktop { height: 240px; }
   }
 </style>
 </head>
@@ -632,73 +849,168 @@
   <div class="install-block" id="install">
     <div class="install-label">Oder per Terminal</div>
     <div class="install-cmd" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh'); this.querySelector('.copy-icon').textContent='✓'">
-      <span>curl -fsSL https://raw.githubusercontent.com/mohrcon/killswitch/main/install.sh | zsh</span>
+      <span>curl -fsSL .../killswitch/install.sh | zsh</span>
       <span class="copy-icon">📋</span>
     </div>
   </div>
 </section>
 
-<!-- MOCKUP -->
+<!-- MENUBAR MOCKUP -->
 <section class="mockup-section">
-  <div class="mockup-window">
-    <div class="mockup-titlebar">
-      <div class="mockup-dot red"></div>
-      <div class="mockup-dot yellow"></div>
-      <div class="mockup-dot green"></div>
-      <span>⚡ killswitch</span>
+  <div class="macbook-frame">
+    <!-- Screen bezel -->
+    <div class="macbook-bezel">
+      <div class="macbook-camera"></div>
     </div>
-    <div class="mockup-body">
-      <div class="mockup-menu-item">
-        <div class="left">⚡ Force Kill</div>
-        <div class="right">Modus</div>
-      </div>
-      <div class="mockup-divider"></div>
-
-      <div class="mockup-profile">
-        <div class="profile-header">
-          <div class="profile-name">🔴 Screen Sharing</div>
-          <div class="profile-hotkey">⌃⌥⌘S</div>
+    <!-- Screen -->
+    <div class="macbook-screen">
+      <!-- macOS Menu Bar -->
+      <div class="macos-menubar">
+        <div class="menubar-left">
+          <span class="apple-logo"></span>
+          <span class="menubar-app">Chrome</span>
+          <span class="menubar-item">Datei</span>
+          <span class="menubar-item">Bearbeiten</span>
+          <span class="menubar-item">Darstellung</span>
+          <span class="menubar-item">Verlauf</span>
+          <span class="menubar-item">Tab</span>
+          <span class="menubar-item">Fenster</span>
+          <span class="menubar-item">Hilfe</span>
         </div>
-        <div class="profile-apps">
-          <span class="app-tag running">🟢 WhatsApp</span>
-          <span class="app-tag running">🟢 Messages</span>
-          <span class="app-tag running">🟢 Tinder</span>
-          <span class="app-tag off">⚪ Discord</span>
-        </div>
-      </div>
-
-      <div class="mockup-profile">
-        <div class="profile-header">
-          <div class="profile-name">🔴 Focus Mode</div>
-          <div class="profile-hotkey">⌃⌥⌘F</div>
-        </div>
-        <div class="profile-apps">
-          <span class="app-tag running">🟢 Slack</span>
-          <span class="app-tag running">🟢 Mail</span>
-          <span class="app-tag running">🟢 Teams</span>
-          <span class="app-tag off">⚪ Zoom</span>
-        </div>
-      </div>
-
-      <div class="mockup-profile">
-        <div class="profile-header">
-          <div class="profile-name">🔴 Meeting Ende</div>
-          <div class="profile-hotkey">⌃⌥⌘M</div>
-        </div>
-        <div class="profile-apps">
-          <span class="app-tag running">🟢 Zoom</span>
-          <span class="app-tag running">🟢 Teams</span>
-          <span class="app-tag off">⚪ Krisp</span>
+        <div class="menubar-right">
+          <span class="menubar-tray-icon">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="rgba(255,255,255,0.7)"><path d="M8 1a2.5 2.5 0 0 0-2.5 2.5v3a2.5 2.5 0 0 0 5 0v-3A2.5 2.5 0 0 0 8 1z"/><path d="M3.5 6.5A.5.5 0 0 1 4 7v.5a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v.5a5 5 0 0 1-4.5 4.975V14.5a.5.5 0 0 1-1 0v-2.025A5 5 0 0 1 3 7.5V7a.5.5 0 0 1 .5-.5z"/></svg>
+          </span>
+          <span class="menubar-killswitch" id="ks-icon">⚡ <span class="ks-badge" id="ks-badge">4</span></span>
+          <span class="menubar-tray-icon">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="rgba(255,255,255,0.5)"><path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.611 3.889l.707.707z"/><path d="M8.707 11.182A4.49 4.49 0 0 0 10.025 8a4.49 4.49 0 0 0-1.318-3.182L8 5.525A3.49 3.49 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg>
+          </span>
+          <span class="menubar-tray-icon">
+            <svg width="12" height="11" viewBox="0 0 16 16" fill="rgba(255,255,255,0.5)"><path d="M15.384 6.115a.485.485 0 0 0-.047-.736A12.44 12.44 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.52.52 0 0 0 .668.05A11.45 11.45 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049z"/><path d="M13.229 8.271a.482.482 0 0 0-.063-.745A9.46 9.46 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065z"/><path d="M11.033 10.46a.59.59 0 0 0-.074-.748A6.49 6.49 0 0 0 8 9a6.49 6.49 0 0 0-2.96.712.59.59 0 0 0-.074.748.627.627 0 0 0 .765.168A5.49 5.49 0 0 1 8 10c.862 0 1.67.198 2.393.55a.627.627 0 0 0 .64-.09z"/><circle cx="8" cy="13" r="1"/></svg>
+          </span>
+          <span class="menubar-tray-text">
+            <svg width="12" height="11" viewBox="0 0 16 16" fill="rgba(255,255,255,0.5)"><path d="M2 6h5v4H2V6zm6.5.5a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0v-3zm2 0a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0v-3zm1.5-.5h2v4h-2V6zm.5.5a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0v-3z"/></svg>
+          </span>
+          <span class="menubar-clock">Do 27. März 10:42</span>
         </div>
       </div>
 
-      <div class="mockup-divider"></div>
-      <div class="mockup-menu-item">
-        <div class="left">⚙️ Profile bearbeiten</div>
-        <div class="right">TextEdit</div>
+      <!-- Desktop wallpaper area -->
+      <div class="macos-desktop">
+
+        <!-- App windows on desktop -->
+        <div class="desk-app" id="desk-whatsapp" style="left:5%; top:12%; width:42%; height:72%;">
+          <div class="desk-app-bar">
+            <div class="desk-dots"><span class="dd r"></span><span class="dd y"></span><span class="dd g"></span></div>
+            <span class="desk-app-title">WhatsApp</span>
+          </div>
+          <div class="desk-app-body wa-body">
+            <div class="wa-sidebar">
+              <div class="wa-chat active"><div class="wa-avatar"></div><div class="wa-lines"><div class="wa-line w60"></div><div class="wa-line w40 dim"></div></div><div class="wa-notif">3</div></div>
+              <div class="wa-chat"><div class="wa-avatar"></div><div class="wa-lines"><div class="wa-line w50"></div><div class="wa-line w30 dim"></div></div></div>
+              <div class="wa-chat"><div class="wa-avatar"></div><div class="wa-lines"><div class="wa-line w70"></div><div class="wa-line w40 dim"></div></div></div>
+            </div>
+            <div class="wa-main">
+              <div class="wa-bubble left"><div class="wa-line w80"></div></div>
+              <div class="wa-bubble right"><div class="wa-line w60"></div></div>
+              <div class="wa-bubble left"><div class="wa-line w50"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="desk-app" id="desk-claude" style="left:20%; top:6%; width:38%; height:55%;">
+          <div class="desk-app-bar">
+            <div class="desk-dots"><span class="dd r"></span><span class="dd y"></span><span class="dd g"></span></div>
+            <span class="desk-app-title">Claude</span>
+          </div>
+          <div class="desk-app-body claude-body">
+            <div class="claude-msg"><div class="wa-line w90"></div><div class="wa-line w70"></div><div class="wa-line w50"></div></div>
+            <div class="claude-reply"><div class="wa-line w80"></div><div class="wa-line w95"></div><div class="wa-line w60"></div></div>
+          </div>
+        </div>
+
+        <div class="desk-app" id="desk-spotify" style="right:3%; top:20%; width:30%; height:58%;">
+          <div class="desk-app-bar spotify-bar">
+            <div class="desk-dots"><span class="dd r"></span><span class="dd y"></span><span class="dd g"></span></div>
+            <span class="desk-app-title">Spotify</span>
+          </div>
+          <div class="desk-app-body spotify-body">
+            <div class="sp-cover"></div>
+            <div class="sp-track"><div class="wa-line w70"></div><div class="wa-line w40 dim"></div></div>
+            <div class="sp-progress"><div class="sp-bar"></div></div>
+          </div>
+        </div>
+
+        <div class="desk-app" id="desk-chatgpt" style="right:10%; top:5%; width:32%; height:45%;">
+          <div class="desk-app-bar">
+            <div class="desk-dots"><span class="dd r"></span><span class="dd y"></span><span class="dd g"></span></div>
+            <span class="desk-app-title">ChatGPT</span>
+          </div>
+          <div class="desk-app-body claude-body">
+            <div class="claude-msg"><div class="wa-line w80"></div><div class="wa-line w60"></div></div>
+            <div class="claude-reply gpt-reply"><div class="wa-line w90"></div><div class="wa-line w70"></div></div>
+          </div>
+        </div>
+
+        <!-- Dropdown -->
+        <div class="ks-dropdown" id="ks-dropdown">
+          <div class="ks-dropdown-inner">
+            <div class="ks-mode">
+              <span>⚡ Force Kill</span>
+              <span class="ks-mode-label">Modus</span>
+            </div>
+            <div class="ks-divider"></div>
+
+            <div class="ks-profile" id="ks-profile-1">
+              <div class="ks-profile-header">
+                <span class="ks-profile-name">🔴 Screen Sharing</span>
+                <span class="ks-hotkey">⌃⌥⌘S</span>
+              </div>
+              <div class="ks-apps">
+                <span class="ks-app running">🟢 WhatsApp</span>
+                <span class="ks-app running">🟢 Claude</span>
+                <span class="ks-app running">🟢 ChatGPT</span>
+                <span class="ks-app running">🟢 Spotify</span>
+              </div>
+            </div>
+
+            <div class="ks-profile">
+              <div class="ks-profile-header">
+                <span class="ks-profile-name">🔴 Focus Mode</span>
+                <span class="ks-hotkey">⌃⌥⌘F</span>
+              </div>
+              <div class="ks-apps">
+                <span class="ks-app running">🟢 Slack</span>
+                <span class="ks-app running">🟢 Teams</span>
+                <span class="ks-app running">🟢 Mail</span>
+                <span class="ks-app off">⚪ Discord</span>
+              </div>
+            </div>
+
+            <div class="ks-profile">
+              <div class="ks-profile-header">
+                <span class="ks-profile-name">🔴 Meeting Ende</span>
+                <span class="ks-hotkey">⌃⌥⌘M</span>
+              </div>
+              <div class="ks-apps">
+                <span class="ks-app running">🟢 Zoom</span>
+                <span class="ks-app running">🟢 Teams</span>
+                <span class="ks-app off">⚪ Krisp</span>
+              </div>
+            </div>
+
+            <div class="ks-divider"></div>
+            <div class="ks-footer-item">🔍 Diagnose</div>
+            <div class="ks-footer-item">⚙️ Profile bearbeiten</div>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- MacBook chin -->
+    <div class="macbook-chin"></div>
   </div>
+
+  <p class="mockup-caption">Lebt in deiner Menüleiste. Zeigt dir immer an, wie viele Apps laufen.</p>
 </section>
 
 <!-- FEATURES -->
@@ -755,7 +1067,7 @@
     <div class="usecase-emoji">😱</div>
     <div>
       <h3>"Kannst du deinen Bildschirm teilen?"</h3>
-      <p>Und plötzlich sieht das ganze Meeting deine WhatsApp-Nachrichten, den offenen Job-Portal-Tab und die Tinder-Notification. Mit Killswitch: Ein Hotkey, alles weg.</p>
+      <p>Und plötzlich sieht das ganze Meeting deine WhatsApp-Nachrichten, den offenen Job-Portal-Tab und die ChatGPT-Unterhaltung. Mit Killswitch: Ein Hotkey, alles weg.</p>
     </div>
   </div>
 
@@ -799,6 +1111,101 @@
     ⚡ killswitch · Made by <a href="https://www.linkedin.com/in/michaelmohr-sap/">Michael Mohr</a> · <a href="https://github.com/mohrcon/killswitch">GitHub</a> · MIT License
   </p>
 </footer>
+
+<script>
+const dropdown = document.getElementById('ks-dropdown');
+const ksIcon = document.getElementById('ks-icon');
+const profile1 = document.getElementById('ks-profile-1');
+const badge = document.getElementById('ks-badge');
+let killed = false;
+let isOpen = true; // starts open via CSS animation
+
+// Click ⚡ icon → toggle dropdown
+ksIcon.addEventListener('click', function(e) {
+  e.stopPropagation();
+  isOpen = !isOpen;
+  dropdown.style.display = isOpen ? 'block' : 'none';
+  if (isOpen) {
+    dropdown.style.animation = 'dropdownSlide 0.2s ease-out both';
+  }
+});
+
+// Click anywhere outside → close
+document.addEventListener('click', function(e) {
+  if (!dropdown.contains(e.target) && !ksIcon.contains(e.target) && isOpen) {
+    dropdown.style.animation = 'dropdownHide 0.15s ease-in forwards';
+    setTimeout(() => { dropdown.style.display = 'none'; }, 150);
+    isOpen = false;
+  }
+});
+
+// Scroll → close
+let scrollTimer;
+window.addEventListener('scroll', function() {
+  if (!isOpen) return;
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(() => {
+    dropdown.style.animation = 'dropdownHide 0.2s ease-in forwards';
+    setTimeout(() => { dropdown.style.display = 'none'; }, 200);
+    isOpen = false;
+  }, 50);
+});
+
+// Kill animation on Screen Sharing profile click
+const deskApps = ['desk-whatsapp', 'desk-claude', 'desk-chatgpt', 'desk-spotify'];
+
+if (profile1) {
+  profile1.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (killed) return;
+    killed = true;
+    this.classList.add('killing');
+
+    // Staggered kill of desktop app windows
+    deskApps.forEach((id, i) => {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('killed');
+      }, i * 150);
+    });
+
+    // Badge countdown
+    let count = 4;
+    const interval = setInterval(() => {
+      count--;
+      badge.textContent = count;
+      if (count <= 0) {
+        clearInterval(interval);
+        badge.textContent = '0';
+        badge.style.background = '#555';
+        // Close dropdown after kill
+        setTimeout(() => {
+          dropdown.style.animation = 'dropdownHide 0.15s ease-in forwards';
+          setTimeout(() => { dropdown.style.display = 'none'; }, 150);
+          isOpen = false;
+        }, 400);
+        // Reset everything after 4s
+        setTimeout(() => {
+          profile1.classList.remove('killing');
+          badge.textContent = '4';
+          badge.style.background = '';
+          killed = false;
+          profile1.querySelectorAll('.ks-app.running').forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = '';
+            el.style.opacity = '1';
+          });
+          deskApps.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('killed');
+          });
+        }, 4000);
+      }
+    }, 150);
+  });
+}
+</script>
 
 </body>
 </html>
