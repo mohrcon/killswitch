@@ -764,6 +764,50 @@
     animation: fadeInUp 0.6s ease-out 1.5s both;
   }
 
+  .demo-heading {
+    text-align: center;
+    margin-bottom: 12px;
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+  }
+
+  .demo-heading h2 {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+
+  .demo-heading p {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  /* Pulsing hint on Screen Sharing profile */
+  .ks-profile-hint {
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 4px;
+    animation: hintPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  #ks-profile-1:not(.was-clicked) {
+    animation: profileHint 2s ease-in-out infinite;
+  }
+
+  @keyframes profileHint {
+    0%, 100% { background: rgba(255,59,48,0.0); }
+    50% { background: rgba(255,59,48,0.08); }
+  }
+
+  @keyframes hintPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
   /* Kill animation */
   .ks-profile.killing .ks-app.running {
     animation: killFlash 0.4s ease-out forwards;
@@ -1058,6 +1102,10 @@
 
 <!-- MENUBAR MOCKUP -->
 <section class="mockup-section">
+  <div class="demo-heading">
+    <h2>Probier's aus</h2>
+    <p>Klick auf <strong>Screen Sharing</strong> und sieh, wie die Apps verschwinden</p>
+  </div>
   <div class="macbook-frame">
     <!-- Screen bezel -->
     <div class="macbook-bezel">
@@ -1173,6 +1221,7 @@
                 <span class="ks-app running">🟢 ChatGPT</span>
                 <span class="ks-app running">🟢 Spotify</span>
               </div>
+              <span class="ks-profile-hint" id="ks-hint">↑ Klick hier um alle zu schließen</span>
             </div>
 
             <div class="ks-profile">
@@ -1211,7 +1260,7 @@
     <div class="macbook-chin"></div>
   </div>
 
-  <p class="mockup-caption">Lebt in deiner Menüleiste. Zeigt dir immer an, wie viele Apps laufen.</p>
+  <p class="mockup-caption" id="mockup-caption">Lebt in deiner Menüleiste. Zeigt dir immer an, wie viele Apps laufen.</p>
 </section>
 
 <!-- FEATURES -->
@@ -1366,6 +1415,15 @@ if (profile1) {
     if (killed) return;
     killed = true;
     this.classList.add('killing');
+    this.classList.add('was-clicked');
+
+    // Hide hint
+    const hint = document.getElementById('ks-hint');
+    if (hint) hint.style.display = 'none';
+
+    // Update caption
+    const caption = document.getElementById('mockup-caption');
+    if (caption) caption.textContent = '4 Apps geschlossen. So schnell geht das.';
 
     // Staggered kill of desktop app windows
     deskApps.forEach((id, i) => {
