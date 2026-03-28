@@ -312,6 +312,113 @@
 
   .install-steps strong { color: var(--text); }
 
+  /* === WINDOWS SETUP STEPS === */
+  .setup-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 480px;
+    margin: 0 auto;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+  }
+
+  .setup-step {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: all 0.25s;
+  }
+
+  .setup-step:first-child {
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+  }
+
+  .setup-step:last-child {
+    border-radius: 0 0 16px 16px;
+  }
+
+  .setup-step-number {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .setup-step-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .setup-step-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .setup-step-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .setup-step-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: none;
+    white-space: nowrap;
+  }
+
+  .setup-step-btn.primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .setup-step-btn.primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(255,59,48,0.3);
+  }
+
+  .setup-step-btn.secondary {
+    background: rgba(255,255,255,0.08);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .setup-step-btn.secondary:hover {
+    background: var(--surface-hover);
+    border-color: #333;
+  }
+
+  .setup-step-connector {
+    width: 2px;
+    height: 0;
+    margin-left: 43px;
+  }
+
   /* === MACBOOK MOCKUP === */
   .mockup-section {
     padding: 0 24px 100px;
@@ -845,6 +952,9 @@
     .nav-links { display: none; }
     .hero h1 { letter-spacing: -2px; }
     .hero-actions { flex-direction: column; align-items: center; }
+    .setup-step { flex-direction: column; text-align: center; gap: 12px; padding: 20px 16px; }
+    .setup-step-number { margin: 0 auto; }
+    .setup-steps { max-width: 100%; }
     .features-grid { grid-template-columns: 1fr; }
     .usecase { flex-direction: column; gap: 12px; }
     .menubar-left .menubar-item { display: none; }
@@ -915,19 +1025,31 @@
   </div>
 
   <div class="platform-content" id="platform-win" style="display:none;">
-    <div class="hero-actions">
-      <a href="https://www.autohotkey.com/" class="btn-secondary" target="_blank">
-        ① AutoHotkey v2 installieren
-      </a>
-      <a href="https://raw.githubusercontent.com/mohrcon/killswitch/main/windows/killswitch.ahk" class="btn-primary" download>
-        ② ⬇ killswitch.ahk laden
-      </a>
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="setup-step-number">1</div>
+        <div class="setup-step-body">
+          <div class="setup-step-title">AutoHotkey v2 installieren</div>
+          <div class="setup-step-desc">Wird als Laufzeitumgebung benötigt</div>
+        </div>
+        <a href="https://www.autohotkey.com/" class="setup-step-btn secondary" target="_blank">
+          Herunterladen ↗
+        </a>
+      </div>
+      <div class="setup-step">
+        <div class="setup-step-number">2</div>
+        <div class="setup-step-body">
+          <div class="setup-step-title">Killswitch laden</div>
+          <div class="setup-step-desc">Doppelklick auf die Datei → ⚡ erscheint im Tray</div>
+        </div>
+        <a href="https://raw.githubusercontent.com/mohrcon/killswitch/main/windows/killswitch.ahk" class="setup-step-btn primary" download>
+          ⬇ .ahk Datei
+        </a>
+      </div>
     </div>
     <div class="install-block">
-      <div class="install-label">So geht's</div>
+      <div class="install-label">Danach</div>
       <div class="install-steps">
-        <span>AutoHotkey v2 installieren → ZIP entpacken → <strong>killswitch.ahk</strong> doppelklicken → ⚡ im Tray</span>
-        <br><br>
         <span>Profile bearbeiten: Rechtsklick auf ⚡ → <strong>Profile bearbeiten</strong><br>
         Config-Datei: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; font-size:13px;">%APPDATA%\Killswitch\profiles.ini</code><br>
         Prozessnamen finden: Rechtsklick auf ⚡ → <strong>Diagnose</strong></span>
