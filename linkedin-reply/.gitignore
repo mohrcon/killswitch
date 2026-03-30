@@ -1,0 +1,9 @@
+# Browser-Session (enthält Cookies/Login)
+.browser-data/
+
+# Kommentar-Daten
+comments/
+
+# Python
+__pycache__/
+*.pyc
